@@ -14,7 +14,6 @@ while running:
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
-    screen.blit(player.surf, player.rect)
     speed = -1
     hit_id = []
     for sprite in all_sprites:
@@ -44,6 +43,7 @@ while running:
         if 4 in hit_id:
             sprite.rect.move_ip(-speed, 0)
         screen.blit(sprite.surf, sprite.rect)
+    screen.blit(player.surf, player.rect)
     pygame.display.flip()
     clock.tick(FRAME_RATE)
     

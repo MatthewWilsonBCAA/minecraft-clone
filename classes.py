@@ -28,22 +28,26 @@ class Player(pygame.sprite.Sprite):
 class Block(pygame.sprite.Sprite):
     def __init__(self, pos, id):
         super(Block, self).__init__()
-        self.id = id
-        if self.id > 0:
-            self.surf = pygame.Surface((25, 25))
-            if self.id == 1:
-                self.surf.fill((255, 255, 0))
-            elif self.id == 2:
-                self.surf.fill((0, 255, 0))
-            else:
-                self.surf.fill((125, 125, 125))
-            self.rect = self.surf.get_rect(center=pos)
+        if id >= 0:
+            self.change_block(id)
         else:
-            self.surf = pygame.Surface((0, 0))
-            self.surf.fill((255, 255, 0))
-            self.rect = self.surf.get_rect(center=pos)
-            self.id = 0
+            self.change_block(random.randint(0, 3))
+        self.rect = self.surf.get_rect(center=pos)
         self.g_position = pos
+    def change_block(self, id):
+        self.id = id
+        if self.id == 1:
+            self.surf = pygame.Surface((25, 25))
+            self.surf.fill((255, 255, 5))
+        elif self.id == 2:
+            self.surf = pygame.Surface((25, 25))
+            self.surf.fill((0, 255, 0))
+        elif self.id == 3:
+            self.surf = pygame.Surface((25, 25))
+            self.surf.fill((125, 125, 125))
+        else:
+            self.surf = pygame.Surface((25, 25))
+            self.surf.fill((0, 20, 0))
 
 class Chunk():
     def __init__(self, pos):
