@@ -1,6 +1,7 @@
 import pygame
 from constants import *
 import random
+from chunks import chunk_styles
 pygame.init()
 font = pygame.font.SysFont('Consolas', 30)
 from pygame.locals import (
@@ -34,6 +35,8 @@ class Block(pygame.sprite.Sprite):
                 self.surf.fill((255, 255, 0))
             elif self.id == 2:
                 self.surf.fill((0, 255, 0))
+            else:
+                self.surf.fill((125, 125, 125))
             self.rect = self.surf.get_rect(center=pos)
         else:
             self.surf = pygame.Surface((0, 0))
@@ -47,4 +50,5 @@ class Chunk():
         self.blocks = []
         for y in range(CHUNK_SIZE):
             for x in range(CHUNK_SIZE):
-                self.blocks.append(Block((x*25, y*25), random.randint(-10, 2)))
+                # print(str(x) + ", " + str(y))
+                self.blocks.append(Block((x*25, y*25), chunk_styles["ring_one"][y][x]))
