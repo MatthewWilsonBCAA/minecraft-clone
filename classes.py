@@ -1,7 +1,7 @@
 import pygame
 from constants import *
 import random
-from chunks import chunk_styles
+from chunks import chunk_styles, files
 pygame.init()
 font = pygame.font.SysFont('Consolas', 30)
 from pygame.locals import (
@@ -32,6 +32,8 @@ class Block(pygame.sprite.Sprite):
             self.change_block(id)
         elif id == -2:
             self.change_block(random.randint(3, 5))
+        elif id == -3:
+            self.change_block(random.randint(1, 2))
         else:
             self.change_block(random.randint(0, 3))
         self.rect = self.surf.get_rect(center=pos)
@@ -40,7 +42,7 @@ class Block(pygame.sprite.Sprite):
         self.id = id
         if self.id == 1:
             self.surf = pygame.Surface((25, 25))
-            self.surf.fill((255, 255, 5))
+            self.surf.fill((135, 125, 0))
         elif self.id == 2:
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((0, 255, 0))
@@ -60,7 +62,8 @@ class Block(pygame.sprite.Sprite):
 class Chunk():
     def __init__(self, pos):
         self.blocks = []
+        self.chunk_type = files[random.randint(0, len(files)-1)]
         for y in range(CHUNK_SIZE):
             for x in range(CHUNK_SIZE):
                 # print(str(x) + ", " + str(y))
-                self.blocks.append(Block((x*25 + pos[0] , y*25 + pos[1]), chunk_styles["ring_one"][y][x]))
+                self.blocks.append(Block((x*25 + pos[0] , y*25 + pos[1]), chunk_styles[self.chunk_type][y][x]))
