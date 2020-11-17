@@ -22,7 +22,7 @@ from pygame.locals import (
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
-        self.surf = pygame.Surface((25, 25))
+        self.surf = pygame.Surface((20, 20))
         self.surf.fill((255, 255, 255))
         self.rect = self.surf.get_rect(center=(round(SCREEN_WIDTH/2), round(SCREEN_HEIGHT/2)))
 
@@ -57,7 +57,7 @@ class Block(pygame.sprite.Sprite):
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((125, 125, 175))
         else:
-            self.surf = pygame.Surface((25, 25))
+            self.surf = pygame.Surface((0, 0))
             self.surf.fill((0, 20, 0))
 
 class Chunk():
