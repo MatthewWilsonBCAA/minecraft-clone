@@ -16,6 +16,7 @@ from pygame.locals import (
     K_h,
     KEYDOWN,
     QUIT,
+    MOUSEBUTTONDOWN
 )
 
 class Player(pygame.sprite.Sprite):

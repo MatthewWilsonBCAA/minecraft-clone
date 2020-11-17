@@ -16,12 +16,15 @@ for chunk in chunk_list:
     for block in chunk.blocks:
         all_sprites.add(block)
 running = True
+x = 0
+y = 0
 while running:
     screen.fill((0, 0, 0))
     pressed_keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
+        if event.type == MOUSEBUTTONDOWN: x,y = event.pos
     speed = -2
     hit_id = []
     for sprite in all_sprites:
@@ -41,6 +44,9 @@ while running:
             sprite.rect.move_ip(speed, 0)
             if hasattr(sprite, "id") and sprite.id > 0 and pygame.sprite.collide_rect(player, sprite):
                 hit_id.append(4)
+        if sprite.rect.collidepoint(x, y) and hasattr(sprite, "id") and sprite.id != 0:
+            if abs(player.rect.x - x) < 100 and abs(player.rect.y - y) < 100:
+                sprite.id = 0
     for sprite in all_sprites:
         if 1 in hit_id:
             sprite.rect.move_ip(0, speed)
