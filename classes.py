@@ -10,7 +10,7 @@ from pygame.locals import (
     K_LEFT,
     K_RIGHT,
     K_ESCAPE,
-    K_t,
+    K_b,
     K_f,
     K_g,
     K_h,
@@ -57,11 +57,11 @@ class Block(pygame.sprite.Sprite):
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((125, 125, 175))
         else:
-            self.surf = pygame.Surface((0, 0))
+            self.surf = pygame.Surface((25, 25))
             self.surf.fill((0, 20, 0))
 
 class Chunk():
-    def __init__(self, pos, spawn_chunk):
+    def __init__(self, pos, spawn_chunk, data=None):
         self.blocks = []
         if spawn_chunk:
             self.chunk_type = files[0]
@@ -72,7 +72,10 @@ class Chunk():
         for y in range(CHUNK_SIZE):
             for x in range(CHUNK_SIZE):
                 # print(str(x) + ", " + str(y))
-                if self.mirrored_chance == 1:
-                    self.blocks.append(Block((x*25 + pos[0] , y*25 + pos[1]), chunk_styles[self.chunk_type][y][x]))
+                if data:
+                    self.blocks.append(Block((x*25 + pos[0] , y*25 + pos[1]), data[y][x]))
                 else:
-                    self.blocks.append(Block((x*25 + pos[0] , y*25 + pos[1]), chunk_styles[self.chunk_type][x][y]))
+                    if self.mirrored_chance == 1:
+                        self.blocks.append(Block((x*25 + pos[0] , y*25 + pos[1]), chunk_styles[self.chunk_type][y][x]))
+                    else:
+                        self.blocks.append(Block((x*25 + pos[0] , y*25 + pos[1]), chunk_styles[self.chunk_type][x][y]))
