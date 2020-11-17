@@ -4,9 +4,12 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 player = Player()
 
 all_sprites = pygame.sprite.Group()
-chunk_one = Chunk((-2000, -2000))
-for block in chunk_one.blocks:
-    all_sprites.add(block)
+chunk_one = Chunk((0, 0))
+chunk_two = Chunk((800, 0))
+chunk_list = [chunk_one, chunk_two]
+for chunk in chunk_list:
+    for block in chunk.blocks:
+        all_sprites.add(block)
 running = True
 while running:
     screen.fill((0, 0, 0))

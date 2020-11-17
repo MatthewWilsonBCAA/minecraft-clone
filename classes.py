@@ -30,6 +30,8 @@ class Block(pygame.sprite.Sprite):
         super(Block, self).__init__()
         if id >= 0:
             self.change_block(id)
+        elif id == -2:
+            self.change_block(random.randint(3, 5))
         else:
             self.change_block(random.randint(0, 3))
         self.rect = self.surf.get_rect(center=pos)
@@ -45,6 +47,12 @@ class Block(pygame.sprite.Sprite):
         elif self.id == 3:
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((125, 125, 125))
+        elif self.id == 4:
+            self.surf = pygame.Surface((25, 25))
+            self.surf.fill((175, 125, 125))
+        elif self.id == 5:
+            self.surf = pygame.Surface((25, 25))
+            self.surf.fill((125, 125, 175))
         else:
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((0, 20, 0))
@@ -55,4 +63,4 @@ class Chunk():
         for y in range(CHUNK_SIZE):
             for x in range(CHUNK_SIZE):
                 # print(str(x) + ", " + str(y))
-                self.blocks.append(Block((x*25, y*25), chunk_styles["ring_one"][y][x]))
+                self.blocks.append(Block((x*25 + pos[0] , y*25 + pos[1]), chunk_styles["ring_one"][y][x]))
