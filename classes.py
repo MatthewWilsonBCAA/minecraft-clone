@@ -60,10 +60,18 @@ class Block(pygame.sprite.Sprite):
             self.surf.fill((0, 20, 0))
 
 class Chunk():
-    def __init__(self, pos):
+    def __init__(self, pos, spawn_chunk):
         self.blocks = []
-        self.chunk_type = files[random.randint(0, len(files)-1)]
+        if spawn_chunk:
+            self.chunk_type = files[0]
+            self.mirrored_chance = 1
+        else:
+            self.chunk_type = files[random.randint(0, len(files)-1)]
+            self.mirrored_chance = random.randint(1, 2)
         for y in range(CHUNK_SIZE):
             for x in range(CHUNK_SIZE):
                 # print(str(x) + ", " + str(y))
-                self.blocks.append(Block((x*25 + pos[0] , y*25 + pos[1]), chunk_styles[self.chunk_type][y][x]))
+                if self.mirrored_chance == 1:
+                    self.blocks.append(Block((x*25 + pos[0] , y*25 + pos[1]), chunk_styles[self.chunk_type][y][x]))
+                else:
+                    self.blocks.append(Block((x*25 + pos[0] , y*25 + pos[1]), chunk_styles[self.chunk_type][x][y]))

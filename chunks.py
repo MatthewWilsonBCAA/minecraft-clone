@@ -7,7 +7,7 @@ def repr_int(x):
 
 chunk_styles = {}
 
-files = ["mount_one.txt", "mount_two.txt"]
+files = ["mount_one.txt", "mount_two.txt", "thunderdome.txt"]
 for name in files:
     running = True
     with open(name) as file:
