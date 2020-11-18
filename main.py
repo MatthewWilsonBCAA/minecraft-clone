@@ -100,19 +100,19 @@ while running:
     speed = -2
     hit_id = []
     for sprite in all_sprites:
-        if pressed_keys[K_UP]:
+        if pressed_keys[K_w]:
             sprite.rect.move_ip(0, -speed)
             if hasattr(sprite, "id") and sprite.id > 0 and pygame.sprite.collide_rect(player, sprite):
                 hit_id.append(1)
-        if pressed_keys[K_DOWN]:
+        if pressed_keys[K_s]:
             sprite.rect.move_ip(0, speed)
             if hasattr(sprite, "id") and sprite.id > 0 and pygame.sprite.collide_rect(player, sprite):
                 hit_id.append(2)
-        if pressed_keys[K_LEFT]:
+        if pressed_keys[K_a]:
             sprite.rect.move_ip(-speed, 0)
             if hasattr(sprite, "id") and sprite.id > 0 and pygame.sprite.collide_rect(player, sprite):
                 hit_id.append(3)
-        if pressed_keys[K_RIGHT]:
+        if pressed_keys[K_d]:
             sprite.rect.move_ip(speed, 0)
             if hasattr(sprite, "id") and sprite.id > 0 and pygame.sprite.collide_rect(player, sprite):
                 hit_id.append(4)
@@ -175,7 +175,6 @@ with open('world.json', 'w') as file:
         for row in rows:
             temp_row = []
             for block in row:
-
                 temp_row.append(block.id)
             data[keys[z]].append(temp_row)
         z += 1

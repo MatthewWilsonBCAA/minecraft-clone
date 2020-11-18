@@ -19,6 +19,10 @@ from pygame.locals import (
     K_f,
     K_g,
     K_h,
+    K_w,
+    K_a,
+    K_s,
+    K_d,
     KEYDOWN,
     QUIT,
     MOUSEBUTTONDOWN
@@ -64,8 +68,7 @@ class Block(pygame.sprite.Sprite):
             self.surf.fill((0, 255, 0))
             self.hp = 2
         elif self.id == 3:
-            self.surf = pygame.Surface((25, 25))
-            self.surf.fill((125, 125, 125))
+            self.surf = pygame.image.load(r"stone.png").convert_alpha()
             self.hp = 52
         elif self.id == 4:
             self.surf = pygame.Surface((25, 25))
