@@ -60,23 +60,19 @@ class Block(pygame.sprite.Sprite):
     def change_block(self, id):
         self.id = id
         if self.id == 1:
-            self.surf = pygame.Surface((25, 25))
-            self.surf.fill((135, 125, 0))
+            self.surf = pygame.image.load(r"dirt.png").convert_alpha()
             self.hp = 25
         elif self.id == 2:
-            self.surf = pygame.Surface((25, 25))
-            self.surf.fill((0, 255, 0))
+            self.surf = pygame.image.load(r"grass.png").convert_alpha()
             self.hp = 2
         elif self.id == 3:
             self.surf = pygame.image.load(r"stone.png").convert_alpha()
             self.hp = 52
         elif self.id == 4:
-            self.surf = pygame.Surface((25, 25))
-            self.surf.fill((175, 125, 125))
+            self.surf = pygame.image.load(r"red-ore.png").convert_alpha()
             self.hp = 55
         elif self.id == 5:
-            self.surf = pygame.Surface((25, 25))
-            self.surf.fill((125, 125, 175))
+            self.surf = pygame.image.load(r"blue-ore.png").convert_alpha()
             self.hp = 60
         else:
             self.surf = pygame.Surface((25, 25))

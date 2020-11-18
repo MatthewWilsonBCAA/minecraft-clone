@@ -25,8 +25,6 @@ try:
 except:
     inven = {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0}
 player = Player(inven, hp, pickaxe, axe, sword)
-print(x_pos)
-print(y_pos)
 pos_list = [
     (0+x_pos, 0+y_pos),
     (800+x_pos, 0+y_pos),
