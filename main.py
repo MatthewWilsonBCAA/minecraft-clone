@@ -4,33 +4,62 @@ import json
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 try:
+    with open("stats.json", "r") as file:
+        data = json.load(file)
+        hp = data['hp']
+        pickaxe = data['pickaxe']
+        axe = data['axe']
+        sword = data['sword']
+        x_pos = data['x_pos']
+        y_pos = data['y_pos']
+except:
+    hp = 10
+    pickaxe = 10
+    axe = 10
+    sword = 10
+    x_pos = 0
+    y_pos = 0
+try:
     with open("inventory.json", "r") as file:
         inven = json.load(file)
 except:
     inven = {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0}
-player = Player(inven)
+player = Player(inven, hp, pickaxe, axe, sword)
+print(x_pos)
+print(y_pos)
+pos_list = [
+    (0+x_pos, 0+y_pos),
+    (800+x_pos, 0+y_pos),
+    (0+x_pos, 800+y_pos),
+    (800+x_pos, 800+y_pos),
+    (-800+x_pos, 0+y_pos),
+    (-800+x_pos, -800+y_pos),
+    (0+x_pos, -800+y_pos),
+    (800+x_pos, -800+y_pos),
+    (-800+x_pos, 800+y_pos)
+]
 try:
     with open("world.json", "r") as file:
         data = json.load(file)
-        chunk_one = Chunk((0, 0), True, 'one', data['one'])
-        chunk_two = Chunk((800, 0), False, 'two', data['two'])
-        chunk_three = Chunk((0, 800), False, 'three', data['three'])
-        chunk_four = Chunk((800, 800), False, 'four', data['four'])
-        chunk_five = Chunk((-800, 0), False, 'five', data['five'])
-        chunk_six = Chunk((-800, -800), False, 'six', data['six'])
-        chunk_seven = Chunk((0, -800), False, 'seven', data['seven'])
-        chunk_eight = Chunk((800, -800), False, 'eight', data['eight'])
-        chunk_nine = Chunk((-800, 800), False, 'nine', data['nine'])
+        chunk_one = Chunk(pos_list[0], True, 'one', data['one'])
+        chunk_two = Chunk(pos_list[1], False, 'two', data['two'])
+        chunk_three = Chunk(pos_list[2], False, 'three', data['three'])
+        chunk_four = Chunk(pos_list[3], False, 'four', data['four'])
+        chunk_five = Chunk(pos_list[4], False, 'five', data['five'])
+        chunk_six = Chunk(pos_list[5], False, 'six', data['six'])
+        chunk_seven = Chunk(pos_list[6], False, 'seven', data['seven'])
+        chunk_eight = Chunk(pos_list[7], False, 'eight', data['eight'])
+        chunk_nine = Chunk(pos_list[8], False, 'nine', data['nine'])
 except:
-    chunk_one = Chunk((0, 0), True, 'one')
-    chunk_two = Chunk((800, 0), False, 'two')
-    chunk_three = Chunk((0, 800), False, 'three')
-    chunk_four = Chunk((800, 800), False, 'four')
-    chunk_five = Chunk((-800, 0), False, 'five')
-    chunk_six = Chunk((-800, -800), False, 'six')
-    chunk_seven = Chunk((0, -800), False, 'seven')
-    chunk_eight = Chunk((800, -800), False, 'eight')
-    chunk_nine = Chunk((-800, 800), False, 'nine')
+    chunk_one = Chunk(pos_list[0], True, 'one')
+    chunk_two = Chunk(pos_list[1], False, 'two')
+    chunk_three = Chunk(pos_list[2], False, 'three')
+    chunk_four = Chunk(pos_list[3], False, 'four')
+    chunk_five = Chunk(pos_list[4], False, 'five')
+    chunk_six = Chunk(pos_list[5], False, 'six')
+    chunk_seven = Chunk(pos_list[6], False, 'seven')
+    chunk_eight = Chunk(pos_list[7], False, 'eight')
+    chunk_nine = Chunk(pos_list[8], False, 'nine')
 all_sprites = pygame.sprite.Group()
 
 chunk_list = [chunk_one, chunk_two, chunk_three, chunk_four, chunk_five, chunk_six, chunk_seven, chunk_eight, chunk_nine]
@@ -90,8 +119,10 @@ while running:
         if sprite.rect.collidepoint(x, y) and hasattr(sprite, "id"):
             if abs(player.rect.x - x) < 100 and abs(player.rect.y - y) < 100:
                 if sprite.id != 0 and is_build == False:
-                    player.add_item(sprite.id, 1)
-                    sprite.change_block(0)
+                    sprite.hp -= player.pickaxe
+                    if sprite.hp <= 0:
+                        player.add_item(sprite.id, 1)
+                        sprite.change_block(0)
                 elif sprite.id == 0 and is_build == True and selected_block != 0 and player.inventory[str(selected_block)] > 0:
                     sprite.change_block(selected_block)
                     player.remove_item(selected_block, 1)
@@ -127,6 +158,12 @@ while running:
 def split(a, n):
     k, m = divmod(len(a), n)
     return (a[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(n))
+
+with open('stats.json', 'w') as file:
+    x_pos = chunk_one.blocks[0].rect.x + 12
+    y_pos = chunk_one.blocks[0].rect.y + 12
+    data = {'hp': player.hp, 'pickaxe': player.pickaxe, 'axe': player.axe, 'sword': player.sword, 'x_pos': x_pos, 'y_pos': y_pos}
+    json.dump(data, file)
 with open('inventory.json', 'w') as file:
     json.dump(player.inventory, file)
 with open('world.json', 'w') as file:

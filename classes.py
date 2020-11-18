@@ -25,12 +25,16 @@ from pygame.locals import (
 )
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, inventory):
+    def __init__(self, inventory, hp, pickaxe, axe, sword):
         super(Player, self).__init__()
         self.surf = pygame.Surface((20, 20))
         self.surf.fill((255, 255, 255))
         self.rect = self.surf.get_rect(center=(round(SCREEN_WIDTH/2), round(SCREEN_HEIGHT/2)))
         self.inventory = inventory
+        self.hp = hp
+        self.pickaxe = pickaxe
+        self.axe = axe
+        self.sword = sword
     def add_item(self, item_id, amount):
         self.inventory[str(item_id)] += amount
     def remove_item(self, item_id, amount):
@@ -54,21 +58,27 @@ class Block(pygame.sprite.Sprite):
         if self.id == 1:
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((135, 125, 0))
+            self.hp = 25
         elif self.id == 2:
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((0, 255, 0))
+            self.hp = 2
         elif self.id == 3:
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((125, 125, 125))
+            self.hp = 52
         elif self.id == 4:
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((175, 125, 125))
+            self.hp = 55
         elif self.id == 5:
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((125, 125, 175))
+            self.hp = 60
         else:
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((0, 20, 0))
+            self.hp = 0
 
 class Chunk():
     def __init__(self, pos, spawn_chunk, name, data=None):
