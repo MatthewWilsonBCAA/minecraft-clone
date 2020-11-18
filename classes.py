@@ -3,7 +3,7 @@ from constants import *
 import random
 from chunks import chunk_styles, files
 pygame.init()
-font = pygame.font.SysFont('Consolas', 30)
+font = pygame.font.SysFont('Consolas', 20)
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -32,11 +32,9 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect(center=(round(SCREEN_WIDTH/2), round(SCREEN_HEIGHT/2)))
         self.inventory = inventory
     def add_item(self, item_id, amount):
-        try:
-            m = self.inventory[item_id]
-        except:
-            self.inventory[item_id] = 0
-        self.inventory[item_id] += 1
+        self.inventory[str(item_id)] += amount
+    def remove_item(self, item_id, amount):
+        self.inventory[str(item_id)] -= amount
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, pos, id):

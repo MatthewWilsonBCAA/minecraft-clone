@@ -7,7 +7,7 @@ try:
     with open("inventory.json", "r") as file:
         inven = json.load(file)
 except:
-    inven = {}
+    inven = {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0}
 player = Player(inven)
 try:
     with open("world.json", "r") as file:
@@ -92,10 +92,9 @@ while running:
                 if sprite.id != 0 and is_build == False:
                     player.add_item(sprite.id, 1)
                     sprite.change_block(0)
-                elif sprite.id == 0 and is_build == True and selected_block != 0 and player.inventory[selected_block] > 0:
+                elif sprite.id == 0 and is_build == True and selected_block != 0 and player.inventory[str(selected_block)] > 0:
                     sprite.change_block(selected_block)
-                    player.inventory[selected_block] -= 1
-                print(selected_block)
+                    player.remove_item(selected_block, 1)
             
     for sprite in all_sprites:
         if 1 in hit_id:
@@ -109,6 +108,19 @@ while running:
         if hasattr(sprite, "id") and sprite.id != 0:
             screen.blit(sprite.surf, sprite.rect)
     screen.blit(player.surf, player.rect)
+    z = 1
+    for block in BLOCK_LIST:
+        text = block[0]
+        pos = block[1]
+        if selected_block == z:
+            text = '->' + text
+        text += ": " + str(player.inventory[str(z)])
+        screen.blit(font.render(text, True, (255, 255, 0)), pos)
+        z += 1
+    if is_build:
+        screen.blit(font.render("Currently Building...", True, (255, 255, 0)), (30, 10))
+    else:
+        screen.blit(font.render("Currently Mining...", True, (255, 255, 0)), (30, 10))
     pygame.display.flip()
     clock.tick(FRAME_RATE)
 
