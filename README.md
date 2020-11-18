@@ -9,7 +9,7 @@ There are 5 different blocks in the game: Dirt, Grass, Stone, Red (Iron) Ore, an
 
 # main.py
 This file pulls from the other files, and runs the game. It mainly focuses on the physics and input
-management.
+management. Note that movement is just an illusion: the world moves, not the player.
 
 # classes.py
 This file stores the various sprite classes found in the game. Also stores the input constants.
@@ -19,7 +19,7 @@ This file stores commonly-used values.
 
 # chunks.py
 This file interpets given chunk files (stores as .txt files), and makes them availabe to the
-rest of the game.
+rest of the game. Note that you can edit these .txt files to change what the templates look like. You could also make new chunk templets and add them to the 'files' list in chunks.py for them to generate.
 
 # the .json files
 These files store the player's save data, with world.json storing the chunks' states, inventory.json
