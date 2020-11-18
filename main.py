@@ -3,6 +3,9 @@ from itertools import islice
 import json
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Matt's Top Down Minecraft")
+icon = pygame.image.load(r"grass.png")
+pygame.display.set_icon(icon)
 try:
     with open("stats.json", "r") as file:
         data = json.load(file)
