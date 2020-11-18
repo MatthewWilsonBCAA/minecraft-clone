@@ -10,6 +10,11 @@ from pygame.locals import (
     K_LEFT,
     K_RIGHT,
     K_ESCAPE,
+    K_1,
+    K_2,
+    K_3,
+    K_4,
+    K_5,
     K_b,
     K_f,
     K_g,
@@ -20,11 +25,18 @@ from pygame.locals import (
 )
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, inventory):
         super(Player, self).__init__()
         self.surf = pygame.Surface((20, 20))
         self.surf.fill((255, 255, 255))
         self.rect = self.surf.get_rect(center=(round(SCREEN_WIDTH/2), round(SCREEN_HEIGHT/2)))
+        self.inventory = inventory
+    def add_item(self, item_id, amount):
+        try:
+            m = self.inventory[item_id]
+        except:
+            self.inventory[item_id] = 0
+        self.inventory[item_id] += 1
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, pos, id):
@@ -61,8 +73,9 @@ class Block(pygame.sprite.Sprite):
             self.surf.fill((0, 20, 0))
 
 class Chunk():
-    def __init__(self, pos, spawn_chunk, data=None):
+    def __init__(self, pos, spawn_chunk, name, data=None):
         self.blocks = []
+        self.name = name
         if spawn_chunk:
             self.chunk_type = files[0]
             self.mirrored_chance = 1
