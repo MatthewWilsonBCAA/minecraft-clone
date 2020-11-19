@@ -67,6 +67,11 @@ chunk_list = [chunk_one, chunk_two, chunk_three, chunk_four, chunk_five, chunk_s
 for chunk in chunk_list:
     for block in chunk.blocks:
         all_sprites.add(block)
+
+ui_group = pygame.sprite.Group()
+for param in UI_LIST:
+    obj = UI(param[0], param[1], param[2])
+    ui_group.add(obj)   
 running = True
 x = 0
 y = 0
@@ -137,9 +142,19 @@ while running:
             sprite.rect.move_ip(speed, 0)
         if 4 in hit_id:
             sprite.rect.move_ip(-speed, 0)
-        if hasattr(sprite, "id") and sprite.id != 0:
-            screen.blit(sprite.surf, sprite.rect)
+        #if (hasattr(sprite, "id") and sprite.id != 0) or hasattr(sprite, "size"):
+        screen.blit(sprite.surf, sprite.rect)
+    
+    for sprite in ui_group:
+        screen.blit(sprite.surf, sprite.rect)
+        if sprite.type == 1:
+            screen.blit(small_font.render("Pick Lv" + str(player.pickaxe), True, (255, 255, 0)), (sprite.rect.x, sprite.rect.y-20))
+            if sprite.rect.collidepoint(x, y):
+                player.upgrade_pick()
+    screen.blit(font.render("Tools and Upgrades", True, (255, 255, 0)), (SCREEN_WIDTH-200, 0))
     screen.blit(player.surf, player.rect)
+
+
     z = 1
     for block in BLOCK_LIST:
         text = block[0]
@@ -149,10 +164,14 @@ while running:
         text += ": " + str(player.inventory[str(z)])
         screen.blit(font.render(text, True, (255, 255, 0)), pos)
         z += 1
+
+
     if is_build:
-        screen.blit(font.render("Currently Building...", True, (255, 255, 0)), (30, 10))
+        screen.blit(font.render("Building...", True, (255, 255, 0)), (30, 10))
     else:
-        screen.blit(font.render("Currently Mining...", True, (255, 255, 0)), (30, 10))
+        screen.blit(font.render("Mining...", True, (255, 255, 0)), (30, 10))
+
+
     pygame.display.flip()
     clock.tick(FRAME_RATE)
 
@@ -165,8 +184,12 @@ with open('stats.json', 'w') as file:
     y_pos = chunk_one.blocks[0].rect.y + 12
     data = {'hp': player.hp, 'pickaxe': player.pickaxe, 'axe': player.axe, 'sword': player.sword, 'x_pos': x_pos, 'y_pos': y_pos}
     json.dump(data, file)
+
+
 with open('inventory.json', 'w') as file:
     json.dump(player.inventory, file)
+
+
 with open('world.json', 'w') as file:
     keys = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
     z = 0

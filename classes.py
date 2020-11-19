@@ -4,6 +4,7 @@ import random
 from chunks import chunk_styles, files
 pygame.init()
 font = pygame.font.SysFont('Consolas', 20)
+small_font = pygame.font.SysFont('Consolas', 13)
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -28,6 +29,18 @@ from pygame.locals import (
     MOUSEBUTTONDOWN
 )
 
+class UI(pygame.sprite.Sprite):
+    def __init__(self, size, pos, type):
+        super(UI, self).__init__()
+        self.type = type
+        self.surf = pygame.Surface(size)
+        if self.type == 0:
+            self.surf.fill((0, 0, 0))
+        elif self.type == 1:
+            self.surf.fill((255, 200, 0))
+        self.rect = self.surf.get_rect(center=pos)
+    
+        
 class Player(pygame.sprite.Sprite):
     def __init__(self, inventory, hp, pickaxe, axe, sword):
         super(Player, self).__init__()
@@ -43,6 +56,10 @@ class Player(pygame.sprite.Sprite):
         self.inventory[str(item_id)] += amount
     def remove_item(self, item_id, amount):
         self.inventory[str(item_id)] -= amount
+    def upgrade_pick(self):
+        if self.inventory['4'] >= self.pickaxe - UPGRADE_COST:
+            self.inventory['4'] -= self.pickaxe - UPGRADE_COST
+            self.pickaxe += 1
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, pos, id):
