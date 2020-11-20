@@ -4,7 +4,7 @@ import json
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Matt's Top Down Minecraft")
-icon = pygame.image.load(r"grass.png")
+icon = pygame.image.load(BLOCK_LIST[random.randint(0, len(BLOCK_LIST) - 1)][1])
 pygame.display.set_icon(icon)
 try:
     with open("stats.json", "r") as file:
@@ -80,16 +80,16 @@ selected_block = 0
 while running:
     screen.fill((0, 0, 0))
     pressed_keys = pygame.key.get_pressed()
-    if pressed_keys[K_1] and '1' in player.inventory:
-        selected_block = 1
-    elif pressed_keys[K_2] and '2' in player.inventory:
-        selected_block = 2
-    elif pressed_keys[K_3] and '3' in player.inventory:
-        selected_block = 3
-    elif pressed_keys[K_4] and '4' in player.inventory:
-        selected_block = 4
-    elif pressed_keys[K_5] and '5' in player.inventory:
-        selected_block = 5
+    # if pressed_keys[K_1] and '1' in player.inventory:
+    #     selected_block = 1
+    # elif pressed_keys[K_2] and '2' in player.inventory:
+    #     selected_block = 2
+    # elif pressed_keys[K_3] and '3' in player.inventory:
+    #     selected_block = 3
+    # elif pressed_keys[K_4] and '4' in player.inventory:
+    #     selected_block = 4
+    # elif pressed_keys[K_5] and '5' in player.inventory:
+    #     selected_block = 5
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -122,8 +122,9 @@ while running:
             sprite.rect.move_ip(speed, 0)
             if hasattr(sprite, "id") and sprite.id > 0 and pygame.sprite.collide_rect(player, sprite):
                 hit_id.append(4)
-        if sprite.rect.collidepoint(x, y) and hasattr(sprite, "id"):
-            if not pygame.sprite.collide_rect(player, sprite):
+        if sprite.rect.collidepoint(x, y) and hasattr(sprite, "id") and not hasattr(sprite, "name"):
+            dist = ((player.rect.x - x) ** 2 + (player.rect.y - y)  ** 2) ** 0.5
+            if not pygame.sprite.collide_rect(player, sprite) and dist < 125:
                 if sprite.id != 0 and is_build == False:
                     sprite.hp -= player.pickaxe
                     if sprite.hp <= 0:
@@ -144,7 +145,15 @@ while running:
             sprite.rect.move_ip(-speed, 0)
         #if (hasattr(sprite, "id") and sprite.id != 0) or hasattr(sprite, "size"):
         if sprite.rect.x > -20 and sprite.rect.x < SCREEN_WIDTH + 20 and sprite.rect.y > -20 and sprite.rect.y < SCREEN_HEIGHT + 20:
-            screen.blit(sprite.surf, sprite.rect)
+            r = player.rect.x - sprite.rect.x
+            s = player.rect.y - sprite.rect.y
+            is_in_sight = True
+            for x in range(sprite.rect.x, r, 25):
+                for y in range(sprite.rect.y, s, 25):
+                    if sprite.rect.collidepoint(x, y):
+                        is_in_sight = False
+            if is_in_sight:
+                screen.blit(sprite.surf, sprite.rect)
     
     for sprite in ui_group:
         screen.blit(sprite.surf, sprite.rect)
@@ -152,6 +161,11 @@ while running:
             screen.blit(small_font.render("Pick Lv" + str(player.pickaxe), True, (255, 255, 0)), (sprite.rect.x, sprite.rect.y-20))
             if sprite.rect.collidepoint(x, y):
                 player.upgrade_pick()
+        if sprite.type == 2:
+            for ui in sprite.blocks:
+                screen.blit(ui.surf, ui.rect)
+                if ui.rect.collidepoint(x, y):
+                    selected_block = ui.id
     screen.blit(font.render("Tools and Upgrades", True, (255, 255, 0)), (SCREEN_WIDTH-200, 0))
     screen.blit(player.surf, player.rect)
 
@@ -159,7 +173,7 @@ while running:
     z = 1
     for block in BLOCK_LIST:
         text = block[0]
-        pos = block[1]
+        pos = (block[2][0] + 15, block[2][1])
         if selected_block == z:
             text = '->' + text
         text += ": " + str(player.inventory[str(z)])

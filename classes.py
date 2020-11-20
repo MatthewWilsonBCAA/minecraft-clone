@@ -34,11 +34,26 @@ class UI(pygame.sprite.Sprite):
         super(UI, self).__init__()
         self.type = type
         self.surf = pygame.Surface(size)
+        self.rect = self.surf.get_rect(center=pos)
         if self.type == 0:
             self.surf.fill((0, 0, 0))
         elif self.type == 1:
-            self.surf = pygame.image.load(r"pickaxe.png").convert_alpha()
+            self.surf = pygame.image.load(r"images/pickaxe.png").convert_alpha()
+        elif self.type == 2:
+            self.surf.fill((0, 0, 0))
+            self.blocks = []
+            for block in BLOCK_LIST:
+                self.blocks.append(BlockImage(block[0], block[1], block[2], block[3]))
+
+class BlockImage(pygame.sprite.Sprite):
+    def __init__(self, name, image, pos, id):
+        self.name = name
+        self.id = id
+        self.surf = pygame.image.load(image).convert_alpha()
         self.rect = self.surf.get_rect(center=pos)
+
+    def set_block(self):
+        return self.id 
     
         
 class Player(pygame.sprite.Sprite):
@@ -77,19 +92,19 @@ class Block(pygame.sprite.Sprite):
     def change_block(self, id):
         self.id = id
         if self.id == 1:
-            self.surf = pygame.image.load(r"dirt.png").convert_alpha()
+            self.surf = pygame.image.load(BLOCK_LIST[0][1]).convert_alpha()
             self.hp = 25
         elif self.id == 2:
-            self.surf = pygame.image.load(r"grass.png").convert_alpha()
+            self.surf = pygame.image.load(BLOCK_LIST[1][1]).convert_alpha()
             self.hp = 2
         elif self.id == 3:
-            self.surf = pygame.image.load(r"stone.png").convert_alpha()
+            self.surf = pygame.image.load(BLOCK_LIST[2][1]).convert_alpha()
             self.hp = 52
         elif self.id == 4:
-            self.surf = pygame.image.load(r"red-ore.png").convert_alpha()
+            self.surf = pygame.image.load(BLOCK_LIST[3][1]).convert_alpha()
             self.hp = 55
         elif self.id == 5:
-            self.surf = pygame.image.load(r"blue-ore.png").convert_alpha()
+            self.surf = pygame.image.load(BLOCK_LIST[4][1]).convert_alpha()
             self.hp = 60
         else:
             self.surf = pygame.Surface((25, 25))
