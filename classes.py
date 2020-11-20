@@ -37,7 +37,7 @@ class UI(pygame.sprite.Sprite):
         if self.type == 0:
             self.surf.fill((0, 0, 0))
         elif self.type == 1:
-            self.surf.fill((255, 200, 0))
+            self.surf = pygame.image.load(r"pickaxe.png").convert_alpha()
         self.rect = self.surf.get_rect(center=pos)
     
         

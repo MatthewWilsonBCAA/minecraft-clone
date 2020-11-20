@@ -123,7 +123,9 @@ while running:
             if hasattr(sprite, "id") and sprite.id > 0 and pygame.sprite.collide_rect(player, sprite):
                 hit_id.append(4)
         if sprite.rect.collidepoint(x, y) and hasattr(sprite, "id"):
-            if abs(player.rect.x - x) < 100 and abs(player.rect.y - y) < 100:
+            r = abs(player.rect.x - x)
+            s = abs(player.rect.y - y)
+            if r < 100 and r > 25 and s < 100 and s > 25:
                 if sprite.id != 0 and is_build == False:
                     sprite.hp -= player.pickaxe
                     if sprite.hp <= 0:
