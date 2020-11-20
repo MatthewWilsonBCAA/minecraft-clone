@@ -7,6 +7,7 @@ __pycache__/
 *.so
 inventory.json
 world.json
+stats.json
 
 # Distribution / packaging
 .Python
