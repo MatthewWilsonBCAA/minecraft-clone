@@ -143,7 +143,8 @@ while running:
         if 4 in hit_id:
             sprite.rect.move_ip(-speed, 0)
         #if (hasattr(sprite, "id") and sprite.id != 0) or hasattr(sprite, "size"):
-        screen.blit(sprite.surf, sprite.rect)
+        if sprite.rect.x > -20 and sprite.rect.x < SCREEN_WIDTH + 20 and sprite.rect.y > -20 and sprite.rect.y < SCREEN_HEIGHT + 20:
+            screen.blit(sprite.surf, sprite.rect)
     
     for sprite in ui_group:
         screen.blit(sprite.surf, sprite.rect)
