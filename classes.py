@@ -75,7 +75,6 @@ class Player(pygame.sprite.Sprite):
         if self.inventory['4'] >= self.pickaxe - UPGRADE_COST:
             self.inventory['4'] -= self.pickaxe - UPGRADE_COST
             self.pickaxe += 1
-
 class Block(pygame.sprite.Sprite):
     def __init__(self, pos, id):
         super(Block, self).__init__()
@@ -89,6 +88,7 @@ class Block(pygame.sprite.Sprite):
             self.change_block(random.randint(0, 3))
         self.rect = self.surf.get_rect(center=pos)
         self.g_position = pos
+        self.rend = 0
     def change_block(self, id):
         self.id = id
         if self.id == 1:
@@ -110,6 +110,11 @@ class Block(pygame.sprite.Sprite):
             self.surf = pygame.Surface((25, 25))
             self.surf.fill((0, 20, 0))
             self.hp = 0
+    def check_render(self, prev_block):
+        if prev_block.id == 0:
+            return True
+        else:
+            return False
 
 class Chunk():
     def __init__(self, pos, spawn_chunk, name, data=None):

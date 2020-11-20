@@ -72,11 +72,13 @@ ui_group = pygame.sprite.Group()
 for param in UI_LIST:
     obj = UI(param[0], param[1], param[2])
     ui_group.add(obj)   
+
 running = True
 x = 0
 y = 0
 is_build = False
 selected_block = 0
+
 while running:
     screen.fill((0, 0, 0))
     pressed_keys = pygame.key.get_pressed()
@@ -105,6 +107,7 @@ while running:
 
     speed = -2
     hit_id = []
+    rend_r = []
     for sprite in all_sprites:
         if pressed_keys[K_w]:
             sprite.rect.move_ip(0, -speed)
@@ -133,7 +136,19 @@ while running:
                 elif sprite.id == 0 and is_build == True and selected_block != 0 and player.inventory[str(selected_block)] > 0:
                     sprite.change_block(selected_block)
                     player.remove_item(selected_block, 1)
-            
+        # if hasattr(sprite, "id") and sprite.rect.x > -20 and sprite.rect.x < SCREEN_WIDTH + 20 and sprite.rect.y > -20 and sprite.rect.y < SCREEN_HEIGHT + 20:
+        #     posi = [
+        #         [-25, 0],
+        #         [25, 0],
+        #         [0, 25],
+        #         [0, -25]
+        #     ]
+        #     for i in posi:
+        #         blump.rect.x = sprite.rect.x + i[0]
+        #         blump.rect.y = sprite.rect.y + i[1]
+        #         if pygame.sprite.spritecollideany(blump, all_sprites):
+        #             sprite.rend += 1
+    prev_sprite = False
     for sprite in all_sprites:
         if 1 in hit_id:
             sprite.rect.move_ip(0, speed)
@@ -145,15 +160,11 @@ while running:
             sprite.rect.move_ip(-speed, 0)
         #if (hasattr(sprite, "id") and sprite.id != 0) or hasattr(sprite, "size"):
         if sprite.rect.x > -20 and sprite.rect.x < SCREEN_WIDTH + 20 and sprite.rect.y > -20 and sprite.rect.y < SCREEN_HEIGHT + 20:
-            r = player.rect.x - sprite.rect.x
-            s = player.rect.y - sprite.rect.y
-            is_in_sight = True
-            for x in range(sprite.rect.x, r, 25):
-                for y in range(sprite.rect.y, s, 25):
-                    if sprite.rect.collidepoint(x, y):
-                        is_in_sight = False
-            if is_in_sight:
-                screen.blit(sprite.surf, sprite.rect)
+            #if prev_sprite and sprite.check_render(prev_sprite):
+            screen.blit(sprite.surf, sprite.rect)
+            sprite.rend = 0
+        prev_sprite = sprite
+                
     
     for sprite in ui_group:
         screen.blit(sprite.surf, sprite.rect)
