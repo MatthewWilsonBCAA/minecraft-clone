@@ -191,13 +191,6 @@ while running:
         player.rect.move_ip(-speed, 0)
     if pressed_keys[K_d]:
         player.rect.move_ip(speed, 0)
-    camera_move = pygame.Vector2()
-    if pressed_keys[K_w]: camera_move += (0, -speed)
-    if pressed_keys[K_s]: camera_move += (0, speed)
-    if pressed_keys[K_a]: camera_move += (-speed, -0)
-    if pressed_keys[K_d]: camera_move += (speed, 0)
-    if camera_move.length() > 0: camera_move.normalize_ip()
-    cam += camera_move
     
     prev_sprite = False
     next_sprite = False
@@ -235,7 +228,7 @@ while running:
                         player.remove_item(selected_block, 1)
             #if sprite.rect.x > -20 and sprite.rect.x < SCREEN_WIDTH + 20 and sprite.rect.y > -20 and sprite.rect.y < SCREEN_HEIGHT + 20:
             if prev_sprite and sprite.check_render(prev_sprite, next_sprite, ver_sprite, bot_sprite):
-                screen.blit(sprite.surf, sprite.rect.move(*cam))
+                screen.blit(sprite.surf, (sprite.rect.x + player.rect.x, sprite.rect.y + player.rect.y))
             prev_sprite = sprite
             if z < len(chunk.blocks) - 2:
                 next_sprite = chunk.blocks[z + 2]
@@ -272,7 +265,7 @@ while running:
                 if ui.rect.collidepoint(x, y):
                     selected_block = ui.id
     screen.blit(font.render("Tools and Upgrades", True, (255, 255, 0)), (SCREEN_WIDTH-200, 0))
-    screen.blit(player.surf, player.rect)
+    screen.blit(player.surf, (round(SCREEN_WIDTH/2), round(SCREEN_HEIGHT/2)))
 
 
     z = 1
