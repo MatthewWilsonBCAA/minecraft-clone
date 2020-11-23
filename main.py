@@ -136,36 +136,6 @@ while running:
                 elif sprite.id == 0 and is_build == True and selected_block != 0 and player.inventory[str(selected_block)] > 0:
                     sprite.change_block(selected_block)
                     player.remove_item(selected_block, 1)
-        # if hasattr(sprite, "id") and sprite.rect.x > -20 and sprite.rect.x < SCREEN_WIDTH + 20 and sprite.rect.y > -20 and sprite.rect.y < SCREEN_HEIGHT + 20:
-        #     posi = [
-        #         [-25, 0],
-        #         [25, 0],
-        #         [0, 25],
-        #         [0, -25]
-        #     ]
-        #     for i in posi:
-        #         blump.rect.x = sprite.rect.x + i[0]
-        #         blump.rect.y = sprite.rect.y + i[1]
-        #         if pygame.sprite.spritecollideany(blump, all_sprites):
-        #             sprite.rend += 1
-    
-    # z = 0
-    # for sprite in all_sprites:
-    #     if 1 in hit_id:
-    #         sprite.rect.move_ip(0, speed)
-    #     if 2 in hit_id:
-    #         sprite.rect.move_ip(0, -speed)
-    #     if 3 in hit_id:
-    #         sprite.rect.move_ip(speed, 0)
-    #     if 4 in hit_id:
-    #         sprite.rect.move_ip(-speed, 0)
-    #     #if (hasattr(sprite, "id") and sprite.id != 0) or hasattr(sprite, "size"):
-    #     if sprite.rect.x > -5 and sprite.rect.x < SCREEN_WIDTH + 5 and sprite.rect.y > -5 and sprite.rect.y < SCREEN_HEIGHT + 5:
-    #         #if prev_sprite and sprite.check_render(prev_sprite):
-    #         screen.blit(sprite.surf, sprite.rect)
-    #         sprite.rend = 0
-    #     prev_sprite = sprite
-    #     z += 1
     prev_sprite = False
     next_sprite = False
     ver_sprite = False
