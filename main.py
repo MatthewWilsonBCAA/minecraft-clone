@@ -26,7 +26,7 @@ try:
     with open("inventory.json", "r") as file:
         inven = json.load(file)
 except:
-    inven = {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0}
+    inven = {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
 player = Player(inven, hp, pickaxe, axe, sword)
 pos_list = [
     (0+x_pos, 0+y_pos),

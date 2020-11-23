@@ -12,7 +12,8 @@ BLOCK_LIST = [
     ["Grass", "images/grass.png", (30, 55), 2],
     ["Stone", "images/stone.png", (30, 80), 3],
     ["Red Ore", "images/red-ore.png", (30, 105), 4],
-    ["Blue Ore", "images/blue-ore.png", (30, 130), 5]
+    ["Blue Ore", "images/blue-ore.png", (30, 130), 5],
+    ["Green Ore", "images/green-ore.png", (30, 155), 6]
 ]
 #0, just background
 #1, upgrade pickaxe

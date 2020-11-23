@@ -81,7 +81,7 @@ class Block(pygame.sprite.Sprite):
         if id >= 0:
             self.change_block(id)
         elif id == -2:
-            self.change_block(random.randint(3, 5))
+            self.change_block(random.randint(3, 6))
         elif id == -3:
             self.change_block(random.randint(1, 2))
         else:
@@ -106,6 +106,9 @@ class Block(pygame.sprite.Sprite):
         elif self.id == 5:
             self.surf = pygame.image.load(BLOCK_LIST[4][1]).convert_alpha()
             self.hp = 60
+        elif self.id == 6:
+            self.surf = pygame.image.load(BLOCK_LIST[5][1]).convert_alpha()
+            self.hp = 57
         else:
             self.surf = pygame.image.load(r"images/ground.png").convert_alpha()
             self.hp = 0
