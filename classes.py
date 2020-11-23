@@ -107,11 +107,16 @@ class Block(pygame.sprite.Sprite):
             self.surf = pygame.image.load(BLOCK_LIST[4][1]).convert_alpha()
             self.hp = 60
         else:
-            self.surf = pygame.Surface((25, 25))
-            self.surf.fill((0, 20, 0))
+            self.surf = pygame.image.load(r"images/ground.png").convert_alpha()
             self.hp = 0
-    def check_render(self, prev_block):
-        if prev_block.id == 0:
+    def check_render(self, prev_block, next_block, ver_block, bot_block):
+        if prev_block and prev_block.id == 0:
+            return True
+        elif next_block and next_block.id == 0:
+            return True
+        elif ver_block and ver_block.id == 0:
+            return True
+        elif bot_block and bot_block.id == 0:
             return True
         else:
             return False
