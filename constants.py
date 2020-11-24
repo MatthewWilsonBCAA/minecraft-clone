@@ -6,7 +6,7 @@ FRAME_RATE = 60
 CHUNK_SIZE = 32
 
 UPGRADE_COST = 5
-
+REND_DIST = 175
 BLOCK_LIST = [
     ["Dirt", "images/dirt.png", (30, 30), 1],
     ["Grass", "images/grass.png", (30, 55), 2],

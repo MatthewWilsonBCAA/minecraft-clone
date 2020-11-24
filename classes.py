@@ -112,7 +112,10 @@ class Block(pygame.sprite.Sprite):
         else:
             self.surf = pygame.image.load(r"images/ground.png").convert_alpha()
             self.hp = 0
-    def check_render(self, prev_block, next_block, ver_block, bot_block, px, py):
+    def check_render(self, prev_block, next_block, ver_block, bot_block, px, py, dist):
+        if dist > REND_DIST - 25:
+            self.surf.fill((25, 25, 25, 10), special_flags=pygame.BLEND_SUB)
+        else:
         if prev_block and prev_block.id == 0 and self.rect.x > px:
             return True
         elif next_block and next_block.id == 0 and self.rect.x < px:
