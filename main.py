@@ -155,7 +155,7 @@ while running:
             if 4 in hit_id:
                 sprite.rect.move_ip(-speed, 0)
             if sprite.rect.x > -20 and sprite.rect.x < SCREEN_WIDTH + 20 and sprite.rect.y > -20 and sprite.rect.y < SCREEN_HEIGHT + 20:
-                if prev_sprite and sprite.check_render(prev_sprite, next_sprite, ver_sprite, bot_sprite):
+                if sprite.check_render(prev_sprite, next_sprite, ver_sprite, bot_sprite, player.rect.x, player.rect.y):
                     screen.blit(sprite.surf, sprite.rect)
             prev_sprite = sprite
             if z < len(chunk.blocks) - 2:
