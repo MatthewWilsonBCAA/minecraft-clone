@@ -81,7 +81,7 @@ class Block(pygame.sprite.Sprite):
         if id >= 0:
             self.change_block(id)
         elif id == -2:
-            self.change_block(random.randint(3, 6))
+            self.change_block(random.randint(3, 7))
         elif id == -3:
             self.change_block(random.randint(1, 2))
         else:
@@ -89,51 +89,58 @@ class Block(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect(center=pos)
         self.g_position = pos
         self.rend = 0
+        self.a = 255
     def change_block(self, id):
         self.id = id
-        if self.id == 1:
-            self.surf = pygame.image.load(BLOCK_LIST[0][1])
-            self.hp = 25
-        elif self.id == 2:
-            self.surf = pygame.image.load(BLOCK_LIST[1][1])
-            self.hp = 2
-        elif self.id == 3:
-            self.surf = pygame.image.load(BLOCK_LIST[2][1])
-            self.hp = 52
-        elif self.id == 4:
-            self.surf = pygame.image.load(BLOCK_LIST[3][1])
-            self.hp = 55
-        elif self.id == 5:
-            self.surf = pygame.image.load(BLOCK_LIST[4][1])
-            self.hp = 60
-        elif self.id == 6:
-            self.surf = pygame.image.load(BLOCK_LIST[5][1])
-            self.hp = 57
+        if self.id != 0:
+            self.surf = pygame.image.load(BLOCK_LIST[id-1][1]).convert()
+            self.hp = BLOCK_LIST[id-1][3]
         else:
-            self.surf = pygame.image.load(r"images/ground.png")
+            self.surf = pygame.image.load("images/ground.png").convert()
             self.hp = 0
     def check_render(self, prev_block, next_block, ver_block, bot_block, px, py, dist):
-        if dist > REND_DIST - 25:
-            self.surf.set_alpha(100)
-            # self.surf.fill((25, 25, 25, 10), special_flags=pygame.BLEND_SUB)
-        elif dist > REND_DIST - 50:
-            self.surf.set_alpha(200)
-        else:
-            self.surf.set_alpha(255)
-            # self.surf.fill((255, 255, 255, 255), special_flags=pygame.BLEND_RGBA_MULT)
-        # else:
+        do_show = False
+        is_lit = False
         if prev_block and prev_block.id == 0 and self.rect.x > px:
-            return True
-        elif next_block and next_block.id == 0 and self.rect.x < px:
-            return True
-        elif ver_block and ver_block.id == 0 and self.rect.y > py:
-            return True
-        elif bot_block and bot_block.id == 0 and self.rect.y < py:
-            return True
-        elif not prev_block and not bot_block:
-            return True
+            do_show = True
+        elif prev_block and prev_block.id == 7:
+            do_show = True
+            is_lit = True
+
+        if next_block and next_block.id == 0 and self.rect.x < px:
+            do_show = True
+        elif next_block and next_block.id == 7: 
+            do_show = True
+            is_lit = True
+
+        if ver_block and ver_block.id == 0 and self.rect.y > py:
+            do_show = True
+        elif ver_block and ver_block.id == 7: 
+            do_show = True
+            is_lit = True
+
+        if bot_block and bot_block.id == 0 and self.rect.y < py:
+            do_show = True
+        elif bot_block and bot_block.id == 7: 
+            do_show = True
+            is_lit = True
+
+        if not next_block and not bot_block:
+            do_show = True
+        if dist > REND_DIST + 25 and not is_lit:
+            self.a = 0
+            do_show = False
+        elif dist > REND_DIST and not is_lit:
+            self.a = 50
+        elif dist > REND_DIST - 25 and not is_lit:
+            self.a = 100
+            # self.surf.fill((25, 25, 25, 10), special_flags=pygame.BLEND_SUB)
+        elif dist > REND_DIST - 50 and not is_lit:
+            self.a = 200
         else:
-            return False
+            self.a = 255
+            # self.surf.fill((255, 255, 255, 255), special_flags=pygame.BLEND_RGBA_MULT)
+        return do_show
 
 class Chunk():
     def __init__(self, pos, spawn_chunk, name, data=None):

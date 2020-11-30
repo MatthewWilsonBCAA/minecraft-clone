@@ -8,12 +8,13 @@ CHUNK_SIZE = 32
 UPGRADE_COST = 5
 REND_DIST = 175
 BLOCK_LIST = [
-    ["Dirt", "images/dirt.png", (30, 30), 1],
-    ["Grass", "images/grass.png", (30, 55), 2],
-    ["Stone", "images/stone.png", (30, 80), 3],
-    ["Red Ore", "images/red-ore.png", (30, 105), 4],
-    ["Blue Ore", "images/blue-ore.png", (30, 130), 5],
-    ["Green Ore", "images/green-ore.png", (30, 155), 6]
+    ["Dirt", "images/dirt.png", (30, 30), 1, 25],
+    ["Grass", "images/grass.png", (30, 55), 2, 2],
+    ["Stone", "images/stone.png", (30, 80), 3, 52],
+    ["Red Ore", "images/red-ore.png", (30, 105), 4, 55],
+    ["Blue Ore", "images/blue-ore.png", (30, 130), 5, 60],
+    ["Green Ore", "images/green-ore.png", (30, 155), 6, 57],
+    ["Warm Rock", "images/warm-rock.png", (30, 180), 7, 40]
 ]
 #0, just background
 #1, upgrade pickaxe

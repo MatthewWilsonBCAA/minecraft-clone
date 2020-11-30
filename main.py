@@ -26,7 +26,7 @@ try:
     with open("inventory.json", "r") as file:
         inven = json.load(file)
 except:
-    inven = {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
+    inven = {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0}
 player = Player(inven, hp, pickaxe, axe, sword)
 pos_list = [
     (0+x_pos, 0+y_pos),
@@ -155,9 +155,13 @@ while running:
             if 4 in hit_id:
                 sprite.rect.move_ip(-speed, 0)
             dist = ((player.rect.x - sprite.rect.x) ** 2 + (player.rect.y - sprite.rect.y)  ** 2) ** 0.5
-            if dist < REND_DIST and sprite.rect.x > -20 and sprite.rect.x < SCREEN_WIDTH + 20 and sprite.rect.y > -20 and sprite.rect.y < SCREEN_HEIGHT + 20:
+            if sprite.id == 7:
+                screen.blit(sprite.surf, sprite.rect)
+            elif sprite.rect.x > -20 and sprite.rect.x < SCREEN_WIDTH + 20 and sprite.rect.y > -20 and sprite.rect.y < SCREEN_HEIGHT + 20:
                 if sprite.check_render(prev_sprite, next_sprite, ver_sprite, bot_sprite, player.rect.x, player.rect.y, dist):
+                    sprite.surf.set_alpha(sprite.a)
                     screen.blit(sprite.surf, sprite.rect)
+            
             prev_sprite = sprite
             if z < len(chunk.blocks) - 2:
                 next_sprite = chunk.blocks[z + 2]
