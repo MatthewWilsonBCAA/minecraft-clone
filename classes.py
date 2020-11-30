@@ -92,29 +92,35 @@ class Block(pygame.sprite.Sprite):
     def change_block(self, id):
         self.id = id
         if self.id == 1:
-            self.surf = pygame.image.load(BLOCK_LIST[0][1]).convert_alpha()
+            self.surf = pygame.image.load(BLOCK_LIST[0][1])
             self.hp = 25
         elif self.id == 2:
-            self.surf = pygame.image.load(BLOCK_LIST[1][1]).convert_alpha()
+            self.surf = pygame.image.load(BLOCK_LIST[1][1])
             self.hp = 2
         elif self.id == 3:
-            self.surf = pygame.image.load(BLOCK_LIST[2][1]).convert_alpha()
+            self.surf = pygame.image.load(BLOCK_LIST[2][1])
             self.hp = 52
         elif self.id == 4:
-            self.surf = pygame.image.load(BLOCK_LIST[3][1]).convert_alpha()
+            self.surf = pygame.image.load(BLOCK_LIST[3][1])
             self.hp = 55
         elif self.id == 5:
-            self.surf = pygame.image.load(BLOCK_LIST[4][1]).convert_alpha()
+            self.surf = pygame.image.load(BLOCK_LIST[4][1])
             self.hp = 60
         elif self.id == 6:
-            self.surf = pygame.image.load(BLOCK_LIST[5][1]).convert_alpha()
+            self.surf = pygame.image.load(BLOCK_LIST[5][1])
             self.hp = 57
         else:
-            self.surf = pygame.image.load(r"images/ground.png").convert_alpha()
+            self.surf = pygame.image.load(r"images/ground.png")
             self.hp = 0
     def check_render(self, prev_block, next_block, ver_block, bot_block, px, py, dist):
         if dist > REND_DIST - 25:
-            self.surf.fill((25, 25, 25, 10), special_flags=pygame.BLEND_SUB)
+            self.surf.set_alpha(100)
+            # self.surf.fill((25, 25, 25, 10), special_flags=pygame.BLEND_SUB)
+        elif dist > REND_DIST - 50:
+            self.surf.set_alpha(200)
+        else:
+            self.surf.set_alpha(255)
+            # self.surf.fill((255, 255, 255, 255), special_flags=pygame.BLEND_RGBA_MULT)
         # else:
         if prev_block and prev_block.id == 0 and self.rect.x > px:
             return True
