@@ -146,9 +146,7 @@ class Block(pygame.sprite.Sprite):
                 x.add(255)
             else:
                 x.add(255)
-        self.a = max(x)
-            # self.surf.fill((255, 255, 255, 255), special_flags=pygame.BLEND_RGBA_MULT)
-        return do_show
+        return max(x)
 
 class Chunk():
     def __init__(self, pos, spawn_chunk, name, data=None):

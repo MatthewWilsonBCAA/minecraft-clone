@@ -81,6 +81,9 @@ selected_block = 0
 checked_light_blocks = False
 light_timer = 0
 lit_spots = []
+
+dist_b = [] #used for block lighting only
+
 while running:
     screen.fill((0, 0, 0))
     pressed_keys = pygame.key.get_pressed()
@@ -110,11 +113,11 @@ while running:
     speed = -2
     hit_id = []
     rend_r = []
-    light_timer += 1
-    if light_timer > 30:
-        checked_light_blocks = False
-        light_timer = 0
-        lit_spots.clear()
+    #light_timer += 1
+    #if light_timer > 5:
+    checked_light_blocks = False
+        #light_timer = 0
+    lit_spots.clear()
     for sprite in all_sprites:
         if sprite.id == 7 and not checked_light_blocks:
             lit_spots.append((sprite.rect.x, sprite.rect.y))
@@ -151,50 +154,29 @@ while running:
     next_sprite = False
     ver_sprite = False
     bot_sprite = False
-    for chunk in chunk_list:
-        # three extra vars for tracking what block we are on
-        z = 0
-        v = 0
-        b = 0
-        for sprite in chunk.blocks:
-            if 1 in hit_id:
-                sprite.rect.move_ip(0, speed)
-            if 2 in hit_id:
-                sprite.rect.move_ip(0, -speed)
-            if 3 in hit_id:
-                sprite.rect.move_ip(speed, 0)
-            if 4 in hit_id:
-                sprite.rect.move_ip(-speed, 0)
-            dist = []
-            dist.append(((player.rect.x - sprite.rect.x) ** 2 + (player.rect.y - sprite.rect.y)  ** 2) ** 0.5)
+    for sprite in all_sprites:
+        if 1 in hit_id:
+            sprite.rect.move_ip(0, speed)
+        if 2 in hit_id:
+            sprite.rect.move_ip(0, -speed)
+        if 3 in hit_id:
+            sprite.rect.move_ip(speed, 0)
+        if 4 in hit_id:
+            sprite.rect.move_ip(-speed, 0)
             
+        
+        if sprite.rect.x > 0 and sprite.rect.x < SCREEN_WIDTH and sprite.rect.y > 0 and sprite.rect.y < SCREEN_HEIGHT:
             if sprite.id == 7:
                 screen.blit(sprite.surf, sprite.rect)
-
-            elif sprite.rect.x > -20 and sprite.rect.x < SCREEN_WIDTH + 20 and sprite.rect.y > -20 and sprite.rect.y < SCREEN_HEIGHT + 20:
+            else:
+                dist_b.clear()
+                dist_b.append(((player.rect.x - sprite.rect.x) ** 2 + (player.rect.y - sprite.rect.y)  ** 2) ** 0.5)
                 for cor in lit_spots:
-                    x = cor[0]
-                    y = cor[1]
-                    d = ((x - sprite.rect.x) ** 2 + (y - sprite.rect.y)  ** 2) ** 0.5
-                    if d < REND_DIST + 50: dist.append(d)
-                if sprite.check_render(dist):
-                    sprite.surf.set_alpha(sprite.a)
-                    screen.blit(sprite.surf, sprite.rect)
-            
-            # prev_sprite = sprite
-            # if z < len(chunk.blocks) - 2:
-            #     next_sprite = chunk.blocks[z + 2]
-            # if v > 32:
-            #     ver_sprite = chunk.blocks[z - 31]
-            # else:
-            #     ver_sprite = False
-            # if b < len(chunk.blocks) - 33:
-            #     bot_sprite = chunk.blocks[z + 33]
-            # else:
-            #     bot_sprite = False
-            z += 1
-            v += 1
-            b += 1
+                    if abs(cor[0] - sprite.rect.x) < REND_DIST + 50:
+                        d = ((cor[0] - sprite.rect.x) ** 2 + (cor[1] - sprite.rect.y)  ** 2) ** 0.5
+                        if d < REND_DIST + 50: dist_b.append(d)
+                sprite.surf.set_alpha(sprite.check_render(dist_b))
+                screen.blit(sprite.surf, sprite.rect)
                 
     
     for sprite in ui_group:
