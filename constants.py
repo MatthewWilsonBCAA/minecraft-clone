@@ -2,6 +2,8 @@ SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 600
 
 FRAME_RATE = 60
+# False to use the effect, True to not use the effect
+NOFOV = True
 
 CHUNK_SIZE = 32
 

@@ -29,6 +29,12 @@ from pygame.locals import (
     MOUSEBUTTONDOWN
 )
 
+class Light(pygame.sprite.Sprite):
+    def __init__(self, size, pos):
+        super(Light, self).__init__()
+        self.circle = pygame.Circle(size)
+        self.rect = self.circle.get_rect(center=pos)
+
 class UI(pygame.sprite.Sprite):
     def __init__(self, size, pos, type):
         super(UI, self).__init__()
@@ -99,7 +105,7 @@ class Block(pygame.sprite.Sprite):
             self.surf = pygame.image.load("images/ground.png").convert()
             self.hp = 0
     def check_render(self, prev_block, next_block, ver_block, bot_block, px, py, dist):
-        do_show = False
+        do_show = NOFOV
         is_lit = False
         if prev_block and prev_block.id == 0 and self.rect.x > px:
             do_show = True
@@ -127,18 +133,20 @@ class Block(pygame.sprite.Sprite):
 
         if not next_block and not bot_block:
             do_show = True
-        if dist > REND_DIST + 25 and not is_lit:
-            self.a = 0
-            do_show = False
-        elif dist > REND_DIST and not is_lit:
-            self.a = 50
-        elif dist > REND_DIST - 25 and not is_lit:
-            self.a = 100
+        x = set()
+        for d in dist:
+            if d > REND_DIST + 25 and not is_lit:
+                x.add(0)
+            elif d > REND_DIST and not is_lit:
+                x.add(50)
+            elif d > REND_DIST - 25 and not is_lit:
+                x.add(150)
             # self.surf.fill((25, 25, 25, 10), special_flags=pygame.BLEND_SUB)
-        elif dist > REND_DIST - 50 and not is_lit:
-            self.a = 200
-        else:
-            self.a = 255
+            elif d > REND_DIST - 50 and not is_lit:
+                x.add(255)
+            else:
+                x.add(255)
+        self.a = max(x)
             # self.surf.fill((255, 255, 255, 255), special_flags=pygame.BLEND_RGBA_MULT)
         return do_show
 

@@ -78,7 +78,9 @@ x = 0
 y = 0
 is_build = False
 selected_block = 0
-
+checked_light_blocks = False
+light_timer = 0
+lit_spots = []
 while running:
     screen.fill((0, 0, 0))
     pressed_keys = pygame.key.get_pressed()
@@ -108,7 +110,14 @@ while running:
     speed = -2
     hit_id = []
     rend_r = []
+    light_timer += 1
+    if light_timer > 30:
+        checked_light_blocks = False
+        light_timer = 0
+        lit_spots = []
     for sprite in all_sprites:
+        if sprite.id == 7 and not checked_light_blocks:
+            lit_spots.append((sprite.rect.x, sprite.rect.y))
         if pressed_keys[K_w]:
             sprite.rect.move_ip(0, -speed)
             if hasattr(sprite, "id") and sprite.id > 0 and pygame.sprite.collide_rect(player, sprite):
@@ -133,7 +142,9 @@ while running:
                     if sprite.hp <= 0:
                         player.add_item(sprite.id, 1)
                         sprite.change_block(0)
+                    checked_light_blocks = False
                 elif sprite.id == 0 and is_build == True and selected_block != 0 and player.inventory[str(selected_block)] > 0:
+                    checked_light_blocks = False
                     sprite.change_block(selected_block)
                     player.remove_item(selected_block, 1)
     prev_sprite = False
@@ -154,10 +165,18 @@ while running:
                 sprite.rect.move_ip(speed, 0)
             if 4 in hit_id:
                 sprite.rect.move_ip(-speed, 0)
-            dist = ((player.rect.x - sprite.rect.x) ** 2 + (player.rect.y - sprite.rect.y)  ** 2) ** 0.5
+            dist = []
+            dist.append(((player.rect.x - sprite.rect.x) ** 2 + (player.rect.y - sprite.rect.y)  ** 2) ** 0.5)
+            
             if sprite.id == 7:
                 screen.blit(sprite.surf, sprite.rect)
+
             elif sprite.rect.x > -20 and sprite.rect.x < SCREEN_WIDTH + 20 and sprite.rect.y > -20 and sprite.rect.y < SCREEN_HEIGHT + 20:
+                for cor in lit_spots:
+                    x = cor[0]
+                    y = cor[1]
+                    d = ((x - sprite.rect.x) ** 2 + (y - sprite.rect.y)  ** 2) ** 0.5
+                    if d < REND_DIST + 50: dist.append(d)
                 if sprite.check_render(prev_sprite, next_sprite, ver_sprite, bot_sprite, player.rect.x, player.rect.y, dist):
                     sprite.surf.set_alpha(sprite.a)
                     screen.blit(sprite.surf, sprite.rect)
@@ -191,7 +210,7 @@ while running:
                     selected_block = ui.id
     screen.blit(font.render("Tools and Upgrades", True, (255, 255, 0)), (SCREEN_WIDTH-200, 0))
     screen.blit(player.surf, player.rect)
-
+    checked_light_blocks = True
 
     z = 1
     for block in BLOCK_LIST:
