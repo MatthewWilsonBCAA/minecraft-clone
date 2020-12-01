@@ -104,35 +104,35 @@ class Block(pygame.sprite.Sprite):
         else:
             self.surf = pygame.image.load("images/ground.png").convert()
             self.hp = 0
-    def check_render(self, prev_block, next_block, ver_block, bot_block, px, py, dist):
+    def check_render(self, dist):
         do_show = NOFOV
         is_lit = False
-        if prev_block and prev_block.id == 0 and self.rect.x > px:
-            do_show = True
-        elif prev_block and prev_block.id == 7:
-            do_show = True
-            is_lit = True
+        # if prev_block and prev_block.id == 0 and self.rect.x > px:
+        #     do_show = True
+        # elif prev_block and prev_block.id == 7:
+        #     do_show = True
+        #     is_lit = True
 
-        if next_block and next_block.id == 0 and self.rect.x < px:
-            do_show = True
-        elif next_block and next_block.id == 7: 
-            do_show = True
-            is_lit = True
+        # if next_block and next_block.id == 0 and self.rect.x < px:
+        #     do_show = True
+        # elif next_block and next_block.id == 7: 
+        #     do_show = True
+        #     is_lit = True
 
-        if ver_block and ver_block.id == 0 and self.rect.y > py:
-            do_show = True
-        elif ver_block and ver_block.id == 7: 
-            do_show = True
-            is_lit = True
+        # if ver_block and ver_block.id == 0 and self.rect.y > py:
+        #     do_show = True
+        # elif ver_block and ver_block.id == 7: 
+        #     do_show = True
+        #     is_lit = True
 
-        if bot_block and bot_block.id == 0 and self.rect.y < py:
-            do_show = True
-        elif bot_block and bot_block.id == 7: 
-            do_show = True
-            is_lit = True
+        # if bot_block and bot_block.id == 0 and self.rect.y < py:
+        #     do_show = True
+        # elif bot_block and bot_block.id == 7: 
+        #     do_show = True
+        #     is_lit = True
 
-        if not next_block and not bot_block:
-            do_show = True
+        # if not next_block and not bot_block:
+        #     do_show = True
         x = set()
         for d in dist:
             if d > REND_DIST + 25 and not is_lit:

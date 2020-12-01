@@ -114,7 +114,7 @@ while running:
     if light_timer > 30:
         checked_light_blocks = False
         light_timer = 0
-        lit_spots = []
+        lit_spots.clear()
     for sprite in all_sprites:
         if sprite.id == 7 and not checked_light_blocks:
             lit_spots.append((sprite.rect.x, sprite.rect.y))
@@ -177,21 +177,21 @@ while running:
                     y = cor[1]
                     d = ((x - sprite.rect.x) ** 2 + (y - sprite.rect.y)  ** 2) ** 0.5
                     if d < REND_DIST + 50: dist.append(d)
-                if sprite.check_render(prev_sprite, next_sprite, ver_sprite, bot_sprite, player.rect.x, player.rect.y, dist):
+                if sprite.check_render(dist):
                     sprite.surf.set_alpha(sprite.a)
                     screen.blit(sprite.surf, sprite.rect)
             
-            prev_sprite = sprite
-            if z < len(chunk.blocks) - 2:
-                next_sprite = chunk.blocks[z + 2]
-            if v > 32:
-                ver_sprite = chunk.blocks[z - 31]
-            else:
-                ver_sprite = False
-            if b < len(chunk.blocks) - 33:
-                bot_sprite = chunk.blocks[z + 33]
-            else:
-                bot_sprite = False
+            # prev_sprite = sprite
+            # if z < len(chunk.blocks) - 2:
+            #     next_sprite = chunk.blocks[z + 2]
+            # if v > 32:
+            #     ver_sprite = chunk.blocks[z - 31]
+            # else:
+            #     ver_sprite = False
+            # if b < len(chunk.blocks) - 33:
+            #     bot_sprite = chunk.blocks[z + 33]
+            # else:
+            #     bot_sprite = False
             z += 1
             v += 1
             b += 1
