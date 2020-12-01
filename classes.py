@@ -105,47 +105,22 @@ class Block(pygame.sprite.Sprite):
             self.surf = pygame.image.load("images/ground.png").convert()
             self.hp = 0
     def check_render(self, dist):
-        do_show = NOFOV
-        is_lit = False
-        # if prev_block and prev_block.id == 0 and self.rect.x > px:
-        #     do_show = True
-        # elif prev_block and prev_block.id == 7:
-        #     do_show = True
-        #     is_lit = True
-
-        # if next_block and next_block.id == 0 and self.rect.x < px:
-        #     do_show = True
-        # elif next_block and next_block.id == 7: 
-        #     do_show = True
-        #     is_lit = True
-
-        # if ver_block and ver_block.id == 0 and self.rect.y > py:
-        #     do_show = True
-        # elif ver_block and ver_block.id == 7: 
-        #     do_show = True
-        #     is_lit = True
-
-        # if bot_block and bot_block.id == 0 and self.rect.y < py:
-        #     do_show = True
-        # elif bot_block and bot_block.id == 7: 
-        #     do_show = True
-        #     is_lit = True
-
-        # if not next_block and not bot_block:
-        #     do_show = True
         x = set()
         for d in dist:
-            if d > REND_DIST + 25 and not is_lit:
-                x.add(0)
-            elif d > REND_DIST and not is_lit:
-                x.add(50)
-            elif d > REND_DIST - 25 and not is_lit:
-                x.add(150)
-            # self.surf.fill((25, 25, 25, 10), special_flags=pygame.BLEND_SUB)
-            elif d > REND_DIST - 50 and not is_lit:
-                x.add(255)
-            else:
-                x.add(255)
+            x.add((d[1] - d[0]) * 255)
+            # if d[0] > d[1] + 25:
+            #     x.add(0)
+            # elif d[0] > d[1]:
+            #     x.add(50 - dif)
+            # elif d[0] > d[1] - 12:
+            #     x.add(100 + dif)
+            # elif d[0] > d[1] - 25:
+            #     x.add(150 + dif)
+            # # self.surf.fill((25, 25, 25, 10), special_flags=pygame.BLEND_SUB)
+            # elif d[0] > d[1] - 50:
+            #     x.add(255)
+            # else:
+            #     x.add(255)
         return max(x)
 
 class Chunk():

@@ -120,7 +120,7 @@ while running:
     lit_spots.clear()
     for sprite in all_sprites:
         if sprite.id == 7 and not checked_light_blocks:
-            lit_spots.append((sprite.rect.x, sprite.rect.y))
+            lit_spots.append((sprite.rect.x, sprite.rect.y, LIGHT_DIST))
         if pressed_keys[K_w]:
             sprite.rect.move_ip(0, -speed)
             if hasattr(sprite, "id") and sprite.id > 0 and pygame.sprite.collide_rect(player, sprite):
@@ -150,10 +150,6 @@ while running:
                     checked_light_blocks = False
                     sprite.change_block(selected_block)
                     player.remove_item(selected_block, 1)
-    prev_sprite = False
-    next_sprite = False
-    ver_sprite = False
-    bot_sprite = False
     for sprite in all_sprites:
         if 1 in hit_id:
             sprite.rect.move_ip(0, speed)
@@ -170,11 +166,11 @@ while running:
                 screen.blit(sprite.surf, sprite.rect)
             else:
                 dist_b.clear()
-                dist_b.append(((player.rect.x - sprite.rect.x) ** 2 + (player.rect.y - sprite.rect.y)  ** 2) ** 0.5)
+                dist_b.append(((((player.rect.x - sprite.rect.x) ** 2 + (player.rect.y - sprite.rect.y)  ** 2) ** 0.5), REND_DIST))
                 for cor in lit_spots:
                     if abs(cor[0] - sprite.rect.x) < REND_DIST + 50:
                         d = ((cor[0] - sprite.rect.x) ** 2 + (cor[1] - sprite.rect.y)  ** 2) ** 0.5
-                        if d < REND_DIST + 50: dist_b.append(d)
+                        if d < REND_DIST + 50: dist_b.append((d, LIGHT_DIST))
                 sprite.surf.set_alpha(sprite.check_render(dist_b))
                 screen.blit(sprite.surf, sprite.rect)
                 

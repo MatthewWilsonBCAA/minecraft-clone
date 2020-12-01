@@ -2,13 +2,12 @@ SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 600
 
 FRAME_RATE = 60
-# False to use the effect, True to not use the effect
-NOFOV = True
 
 CHUNK_SIZE = 32
 
 UPGRADE_COST = 5
-REND_DIST = 175
+REND_DIST = 80
+LIGHT_DIST = 100
 BLOCK_LIST = [
     ["Dirt", "images/dirt.png", (30, 30), 1, 25],
     ["Grass", "images/grass.png", (30, 55), 2, 2],
