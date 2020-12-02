@@ -107,20 +107,7 @@ class Block(pygame.sprite.Sprite):
     def check_render(self, dist):
         x = set()
         for d in dist:
-            x.add((d[1] - d[0]) * 255)
-            # if d[0] > d[1] + 25:
-            #     x.add(0)
-            # elif d[0] > d[1]:
-            #     x.add(50 - dif)
-            # elif d[0] > d[1] - 12:
-            #     x.add(100 + dif)
-            # elif d[0] > d[1] - 25:
-            #     x.add(150 + dif)
-            # # self.surf.fill((25, 25, 25, 10), special_flags=pygame.BLEND_SUB)
-            # elif d[0] > d[1] - 50:
-            #     x.add(255)
-            # else:
-            #     x.add(255)
+            x.add(int(d[1] / 3 - d[0]) + 150)
         return max(x)
 
 class Chunk():
