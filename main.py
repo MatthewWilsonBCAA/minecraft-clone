@@ -141,9 +141,9 @@ while running:
             p = None
             n = None
             if prev_b and prev_b != 7:
-                p = sprite.rect.x + 12
+                p = sprite.rect.x - 12
             if next_b and next_b != 7:
-                n = sprite.rect.x - 12
+                n = sprite.rect.x + 12
             lit_spots.append((sprite.rect.x, sprite.rect.y, LIGHT_DIST, p, n))
         if pressed_keys[K_w]:
             sprite.rect.move_ip(0, -speed)
