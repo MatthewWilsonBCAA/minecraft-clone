@@ -5,16 +5,23 @@ def repr_int(x):
     except ValueError:
         return False
 
+
 chunk_styles = {}
 
-files = ["mount_one.txt", "mount_two.txt", "thunderdome.txt", "graveyard.txt"]
+files = [
+    "mount_one.txt",
+    "mount_two.txt",
+    "thunderdome.txt",
+    "graveyard.txt",
+    "forest.txt",
+]
 for name in files:
     running = True
     with open(name) as file:
         chunk_styles[name] = []
         while running:
             cur_line = list(file.readline())
-            if 'E' in cur_line:
+            if "E" in cur_line:
                 running = False
             temp_list = []
             for i in cur_line:
@@ -26,5 +33,7 @@ for name in files:
                     temp_list.append(-2)
                 elif i == "n":
                     temp_list.append(-1)
+                elif i == "t":
+                    temp_list.append(-4)
             if temp_list:
                 chunk_styles[name].append(temp_list)

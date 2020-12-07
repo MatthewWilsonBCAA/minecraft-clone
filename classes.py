@@ -101,6 +101,8 @@ class Block(pygame.sprite.Sprite):
             self.change_block(random.randint(3, 7))
         elif id == -3:
             self.change_block(random.randint(1, 2))
+        elif id == -4:
+            self.change_block(random.randint(8, 9))
         else:
             self.change_block(random.randint(0, 3))
         self.rect = self.surf.get_rect(center=pos)
