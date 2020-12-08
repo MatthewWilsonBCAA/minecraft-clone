@@ -22,7 +22,7 @@ BLOCK_LIST = [
 # 0, just background
 # 1, upgrade pickaxe
 UI_LIST = [
-    [(200, 180), (100, 90), 2],
+    [(200, 250), (100, 125), 2],
     [(220, 100), (SCREEN_WIDTH - 110, 50), 0],
     [(50, 50), (SCREEN_WIDTH - 175, 75), 1],
 ]
