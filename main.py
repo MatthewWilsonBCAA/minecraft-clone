@@ -217,10 +217,10 @@ while running:
             sprite.rect.move_ip(-speed, 0)
 
         if (
-            sprite.rect.x > 0
-            and sprite.rect.x < SCREEN_WIDTH
-            and sprite.rect.y > 0
-            and sprite.rect.y < SCREEN_HEIGHT
+            sprite.rect.x > -20
+            and sprite.rect.x < SCREEN_WIDTH + 20
+            and sprite.rect.y > -20
+            and sprite.rect.y < SCREEN_HEIGHT + 20
         ):
             if sprite.id == 7:
                 screen.blit(sprite.surf, sprite.rect)
@@ -239,10 +239,10 @@ while running:
                     ]
                 )
                 for cor in lit_spots:
-                    if cor[3] != None and sprite.rect.x < cor[3]:
-                        continue
-                    if cor[4] != None and sprite.rect.x > cor[4]:
-                        continue
+                    # if cor[3] != None and sprite.rect.x < cor[3]:
+                    #     continue
+                    # if cor[4] != None and sprite.rect.x > cor[4]:
+                    #     continue
                     if abs(cor[0] - sprite.rect.x) < REND_DIST + 50:
                         d = (
                             (cor[0] - sprite.rect.x) ** 2
